@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
-import './App.css'
 
-import Layout from 'Layout'
-import Login from 'Login'
+import 'bootstrap/scss/bootstrap-reboot.scss'
+import 'bootstrap/scss/bootstrap.scss'
 
+import Layout from './containers/Layout/Layout'
+import Login from './containers/Login/Login'
 
 class App extends Component {
   state = {
     isLoggedIn: false
   }
+
   render() { 
-    return this.state.sLoggedIn
+    return this.state.isLoggedIn
       ? <Layout />
       : <Login />
   }
