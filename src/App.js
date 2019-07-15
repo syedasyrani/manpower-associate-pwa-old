@@ -5,13 +5,16 @@ import 'bootstrap/scss/bootstrap.scss'
 
 import Layout from './containers/Layout/Layout'
 import Login from './containers/Login/Login'
+import Home from './containers/Home/Home'
 
 class App extends Component {
   state = { isLoggedIn: true }
 
   render() { 
     return this.state.isLoggedIn
-      ? <Layout />
+      ? <Layout>
+          <Home />
+        </Layout>
       : <Login />
   }
 }
