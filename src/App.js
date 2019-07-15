@@ -7,9 +7,7 @@ import Layout from './containers/Layout/Layout'
 import Login from './containers/Login/Login'
 
 class App extends Component {
-  state = {
-    isLoggedIn: false
-  }
+  state = { isLoggedIn: true }
 
   render() { 
     return this.state.isLoggedIn
