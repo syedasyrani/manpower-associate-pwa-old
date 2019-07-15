@@ -6,6 +6,7 @@ import 'bootstrap/scss/bootstrap.scss'
 import Layout from './containers/Layout/Layout'
 import Login from './containers/Login/Login'
 import Home from './containers/Home/Home'
+import Setting from './containers/Setting/Setting'
 
 class App extends Component {
   state = { isLoggedIn: true }
@@ -13,7 +14,8 @@ class App extends Component {
   render() { 
     return this.state.isLoggedIn
       ? <Layout>
-          <Home />
+          {/* <Home /> */}
+          <Setting />
         </Layout>
       : <Login />
   }
