@@ -4,7 +4,9 @@ import styles from './Navbar.css'
 class Navbar extends Component {
     render() { 
         return <nav className={styles.Navbar + " navbar bg-white align-center border-bottom"}>
-          <i className="fas fa-bars"></i>
+          <i 
+            className="fas fa-bars"
+            onClick={this.props.sidebarToggler}></i>
           <h1 className="navbar-brand mb-0">Amazon <span className="pl-1" style={{color: '#aaa'}}>USG1</span></h1>
           
           <span className="navbar-text d-flex align-center">

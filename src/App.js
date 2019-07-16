@@ -7,6 +7,7 @@ import Layout from './containers/Layout/Layout'
 import Login from './containers/Login/Login'
 import Home from './containers/Home/Home'
 import Profile from './containers/Profile/Profile'
+import Notifications from './containers/Notifications/Notifications'
 
 class App extends Component {
   state = {
@@ -17,7 +18,7 @@ class App extends Component {
   render() { 
     return this.state.isLoggedIn
       ? <Layout>
-          <Profile />
+          <Notifications />
         </Layout>
       : <Login />
   }
