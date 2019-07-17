@@ -33,16 +33,17 @@ const getWeekDaysArray = (date, startDay) => {
 
 const weekControl = props => {
     let activeClass = "  bg-dark text-white shadow-sm"
-    
+
     return <div className="container">
         <div className="row d-flex align-items-center">
             <div className="col-8">
-                <div className="py-2">Week {moment(props.activeDate).format('W')}</div>
-                <h5>{getWeekDateRange(props.date, props.startDay)}</h5>
+                <div className="py-2">Week {moment(props.activeWeek.week_start_date).format('W')}</div>
+                <h5>{getWeekDateRange(props.activeWeek.week_start_date, props.startDay)}</h5>
             </div>
             <div className="col text-right">
                 <button 
                     className="btn btn-light text-dark border bg-white p-1 mr-2"
+                    onClick={() => props.changeToPrevWeek(props.activeWeek.week_start_date, props.activeWeek.week_end_date)}
                     style={{
                         borderRadius: '50%',
                         height: '30px',
@@ -52,6 +53,7 @@ const weekControl = props => {
                     }}><i className="fas fa-chevron-left"></i></button>
                 <button 
                     className="btn btn-light text-dark border bg-white p-1 ml-2"
+                    onClick={() => props.changeToNextWeek(props.activeWeek.week_start_date, props.activeWeek.week_end_date)}
                     style={{
                         borderRadius: '50%',
                         height: '30px',
@@ -63,8 +65,8 @@ const weekControl = props => {
         </div>
         <div className="border rounded">
             <div className="d-flex justify-items-center nowrap">
-                {
-                    getWeekDaysArray(props.date, props.startDay).map((date, index) => (
+                { 
+                    getWeekDaysArray(props.activeWeek.week_start_date, props.startDay).map((date, index) => (
                         <div 
                             key={index} 
                             className="flex-grow-1 py-1 pb-3 text-center"
@@ -82,7 +84,7 @@ const weekControl = props => {
                                     }
                                 }>{date.format('DD')}</div>
                         </div>
-                    ))
+                    )) 
                 }
             </div>
         </div>
