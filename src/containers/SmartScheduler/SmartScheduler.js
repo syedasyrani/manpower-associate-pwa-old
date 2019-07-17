@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 
 import TodayDate from '../../components/TodayDate/TodayDate'
 import WeekMonthControl from '../../components/WeekMonthControl/WeekMonthControl'
@@ -9,7 +10,7 @@ import ShiftPreference from '../../components/ShiftPreference/ShiftPreference'
 
 class SmartScheduler extends Component {
     state = {
-        date: '2019-01-01',
+        date: moment('2019-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
         start_day: 1,
         view: 'week',
         shifts: {
@@ -21,12 +22,32 @@ class SmartScheduler extends Component {
                 { id: 2, name: 'Shift 2', start_time: '12:30', end_time: '16:30'},
                 { id: 3, name: 'Shift 3', start_time: '16:30', end_time: '21:00'},
             ]
+        },
+        activeDate: moment('2019-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        activeWeek: {
+            start_date: moment('2018-12-31', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+            end_date: moment('2019-01-06', 'YYYY-MM-DD').format('YYYY-MM-DD'),
         }
     }
 
     toggleViewHandler = view => {
         if (this.state.view !== view) this.setState({ view })
     }
+
+    getWeekDateRange = (date, startDay) => {
+        const today_day_int      = moment(date).day()
+        const difference_in_days = today_day_int - startDay
+        const week_start_date    = moment(date).subtract(difference_in_days, 'days')
+        const week_end_date      = moment(week_start_date.format('YYYY-MM-DD')).add(6, 'days')
+    
+        return {
+            week_start_date: week_start_date.format('YYYY-MM-DD'),
+            week_end_date: week_end_date.format('YYYY-MM-DD'),
+        }
+    }
+
+    changeActiveDateHandler = date => this.setState({activeDate: date})
+    changeActiveWeekHandler = date => this.setState({activeDate: date})
 
     render() { 
         return <div>
@@ -39,14 +60,19 @@ class SmartScheduler extends Component {
                     ? <div>
                         <WeekCalendar 
                             date={this.state.date}
-                            startDay={this.state.start_day} />
+                            activeDate={this.state.activeDate}
+                            activeWeek={this.state.activeWeek}
+                            startDay={this.state.start_day}
+                            changeActiveDate={this.changeActiveDateHandler} />
                         <TotalHours />
                       </div>
                     : this.state.view === 'month'
                     ? <MonthCalendar />
                     : null
             }
-            <ShiftPreference shifts={this.state.shifts} />
+            <ShiftPreference 
+                activeDate={this.state.activeDate} 
+                shifts={this.state.shifts} />
         </div>
     }
 }

@@ -23,7 +23,7 @@ class ShiftPreference extends Component {
 
     render() { 
         return (
-            <div className="container">
+            <div className="container pb-3">
                 <div className="container border rounded pb-2">
                     <h6 className="py-2">Your Preferred Shift</h6>
                     { 

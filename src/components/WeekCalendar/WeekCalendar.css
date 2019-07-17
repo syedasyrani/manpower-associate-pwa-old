@@ -1,0 +1,32 @@
+.day-container {
+    padding:2.5vh 0 !important;
+    border:0.06vw solid #898989;
+    border-radius:0.5vw;
+}
+
+.days {
+    width:14.285%;
+}
+
+.title {
+    padding:0.5vh 0 !important;
+    font-size:1.2em;
+    font-weight:600;
+    color:black;
+}
+
+.days button {
+    width:6vh;
+    height:6vh;
+    margin:2vh 0 !important;
+    font-size:2em;
+    font-weight:600;
+    color:#898989;
+    border:none;
+    border-radius:50%;
+}
+
+.days .button-active {
+    color:white;
+    background-color:#3f3f3f;
+}
