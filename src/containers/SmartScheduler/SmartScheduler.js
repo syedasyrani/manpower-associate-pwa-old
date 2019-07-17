@@ -10,6 +10,7 @@ import ShiftPreference from '../../components/ShiftPreference/ShiftPreference'
 
 class SmartScheduler extends Component {
     state = {
+        render:false,
         date: moment('2019-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
         start_day: 1,
         view: 'week',
@@ -25,9 +26,23 @@ class SmartScheduler extends Component {
         },
         activeDate: moment('2019-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
         activeWeek: {
-            start_date: moment('2018-12-31', 'YYYY-MM-DD').format('YYYY-MM-DD'),
-            end_date: moment('2019-01-06', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+            start_date: '',
+            end_date: '',
         }
+    }
+
+    componentDidMount = async () => {
+        let activeWeek = {
+            start_date: await moment('2018-12-31', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+            end_date: await moment('2019-01-06', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        }
+        this.setState({
+            activeWeek:activeWeek,
+        }, () => {
+            this.setState({
+                render:true,
+            })
+        });
     }
 
     toggleViewHandler = view => {
@@ -50,30 +65,41 @@ class SmartScheduler extends Component {
     changeActiveWeekHandler = date => this.setState({activeDate: date})
 
     render() { 
-        return <div>
-            <TodayDate date={this.state.date} />
-            <WeekMonthControl 
-                active={this.state.view}
-                toggleView={this.toggleViewHandler} />
-            { 
-                this.state.view === 'week'
-                    ? <div>
-                        <WeekCalendar 
-                            date={this.state.date}
-                            activeDate={this.state.activeDate}
-                            activeWeek={this.state.activeWeek}
-                            startDay={this.state.start_day}
-                            changeActiveDate={this.changeActiveDateHandler} />
-                        <TotalHours />
-                      </div>
-                    : this.state.view === 'month'
-                    ? <MonthCalendar />
-                    : null
-            }
-            <ShiftPreference 
-                activeDate={this.state.activeDate} 
-                shifts={this.state.shifts} />
-        </div>
+        if (this.state.render) {
+            return (
+                <div>
+                    <TodayDate date={this.state.date} />
+                    <WeekMonthControl 
+                        active={this.state.view}
+                        toggleView={this.toggleViewHandler} />
+                    { 
+                        this.state.view === 'week'
+                            ? <div>
+                                <WeekCalendar 
+                                    date={this.state.date}
+                                    activeDate={this.state.activeDate}
+                                    activeWeek={this.state.activeWeek}
+                                    startDay={this.state.start_day}
+                                    changeActiveDate={this.changeActiveDateHandler} />
+                                <TotalHours />
+                            </div>
+                            : this.state.view === 'month'
+                            ? <MonthCalendar />
+                            : null
+                    }
+                    <ShiftPreference 
+                        activeDate={this.state.activeDate} 
+                        shifts={this.state.shifts} />
+                </div>
+            )
+        }   
+        else {
+            return (
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            )
+        }
     }
 }
  

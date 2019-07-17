@@ -11,7 +11,7 @@ const weekMonthControl = props => {
         <div className="row w-100 ml-0 text-center border-bottom">
             <div 
                 className={weekClass}
-                onClick={() => props.toggleView('week')}>
+                onClick={props.toggleView('week')}>
                 Week
             </div>
             <div 
