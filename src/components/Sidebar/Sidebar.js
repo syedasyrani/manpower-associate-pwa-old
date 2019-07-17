@@ -7,7 +7,7 @@ const sidebar = props => (
     <div className={styles['Sidebar'] + " bg-light border-right"}>
         <div className={styles['sidebar-heading']}>Logo</div>
         <div className={styles['list-group'] + ' ' + styles['list-group-flush']}>
-            { props.items.map(item => <Item item={item} />) }
+            { props.items.map((item, index) => <Item key={index} item={item} />) }
         </div>
     </div>
 )

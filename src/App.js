@@ -8,6 +8,7 @@ import Login from './containers/Login/Login'
 import Home from './containers/Home/Home'
 import Profile from './containers/Profile/Profile'
 import Notifications from './containers/Notifications/Notifications'
+import SmartScheduler from './containers/SmartScheduler/SmartScheduler'
 
 class App extends Component {
   state = {
@@ -18,7 +19,7 @@ class App extends Component {
   render() { 
     return this.state.isLoggedIn
       ? <Layout>
-          <Notifications />
+          <SmartScheduler />
         </Layout>
       : <Login />
   }
