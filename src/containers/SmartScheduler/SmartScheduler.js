@@ -10,9 +10,9 @@ import ShiftPreference from '../../components/ShiftPreference/ShiftPreference'
 
 class SmartScheduler extends Component {
     state = {
-        date: moment('2019-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        date: moment().format('YYYY-MM-DD'),
         start_day: 1,
-        view: 'week',
+        view: 'month',
         shifts: {
             preferred: [
                 { id: 2, name: 'Shift 2', start_time: '12:30', end_time: '16:30'},
@@ -23,15 +23,28 @@ class SmartScheduler extends Component {
                 { id: 3, name: 'Shift 3', start_time: '16:30', end_time: '21:00'},
             ]
         },
-        activeDate: moment('2019-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        activeDate: moment().format('YYYY-MM-DD'),
         activeWeek: {
             week_start_date: null,
             week_end_date: null,
+        },
+        activeMonth: {
+            month: null,
+            month_start_date: null,
+            month_end_date: null,
         }
     }
 
     toggleViewHandler = view => {
         if (this.state.view !== view) this.setState({ view })
+    }
+
+    backToTodayHandler = () => {
+        this.setState({ 
+            activeDate: this.state.date,
+            activeWeek: this.getWeekDateRange(this.state.date, this.state.startDay),
+            activeMonth: this.getMonthDateRange(moment(this.state.date, 'YYYY-MM-DD'))
+        })
     }
 
     getWeekDateRange = (date, startDay) => {
@@ -89,9 +102,25 @@ class SmartScheduler extends Component {
         })
     }
 
+    getMonthDateRange = activeDate => {
+        let startDate = activeDate.clone().startOf('month').startOf('week').format('YYYY-MM-DD')
+        let endDate   = activeDate.clone().endOf('month').endOf('week').format('YYYY-MM-DD')
+
+        return {
+            month: activeDate.format('YYYY-MM'),
+            month_start_date: startDate,
+            month_end_date: endDate
+        }
+    }
+
+    changeToNextMonthHandler = () => this.setState({ activeMonth: this.getMonthDateRange(moment(this.state.activeMonth.month, 'YYYY-MM').add(1, 'month')) })
+    changeToPrevMonthHandler = () => this.setState({ activeMonth: this.getMonthDateRange(moment(this.state.activeMonth.month, 'YYYY-MM').subtract(1, 'month'))})
+
     componentDidMount = () => {
+        let activeMonth = this.getMonthDateRange(moment(this.state.activeDate, 'YYYY-MM-DD'))
         let activeWeek = this.getWeekDateRange(this.state.date, this.state.start_day)
-        this.setState({ activeWeek })
+        this.setState({ activeWeek, activeMonth })
+        // let activeMonth = this.getMonthRange(this.state.date)
     }
 
     render() { 
@@ -102,18 +131,27 @@ class SmartScheduler extends Component {
                     activeDate={this.state.activeDate}
                     activeWeek={this.state.activeWeek}
                     startDay={this.state.start_day}
+                    backToToday={this.backToTodayHandler}
                     changeActiveDate={this.changeActiveDateHandler}
                     changeToNextWeek={this.changeToNextWeekHandler}
                     changeToPrevWeek={this.changeToPrevWeekHandler} />
                 <TotalHours />
             </div>
             : this.state.view === 'month'
-            ? <MonthCalendar />
+            ? <MonthCalendar
+                date={this.state.date}
+                activeDate={this.state.activeDate}
+                activeMonth={this.state.activeMonth}
+                startDay={this.state.start_day}
+                backToToday={this.backToTodayHandler}
+                changeActiveDate={this.changeActiveDateHandler}
+                changeToNextMonth={this.changeToNextMonthHandler}
+                changeToPrevMonth={this.changeToPrevMonthHandler} />
             : null
             
         return (
             <div>
-                <TodayDate date={this.state.activeDate} />
+                <TodayDate todayDate={this.state.date} activeDate={this.state.activeDate} />
                 <WeekMonthControl 
                     active={this.state.view}
                     toggleView={this.toggleViewHandler} />

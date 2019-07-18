@@ -8,14 +8,14 @@ const weekMonthControl = props => {
     let monthClass = props.active === 'month' ? toggleClass + activeClass : toggleClass
 
     return (
-        <div className="row w-100 ml-0 text-center border-bottom">
+        <div className="d-flex text-center border-bottom">
             <div 
-                className={weekClass}
+                className={weekClass + " flex-grow-1"}
                 onClick={() => props.toggleView('week')}>
                 Week
             </div>
             <div 
-                className={monthClass}
+                className={monthClass + " flex-grow-1"}
                 onClick={() => props.toggleView('month')}>
                 Month
             </div>

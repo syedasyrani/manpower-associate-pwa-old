@@ -31,14 +31,14 @@ const getWeekDaysArray = (date, startDay) => {
     return days
 }
 
-const weekControl = props => {
+const weekCalendar = props => {
     let activeClass = "  bg-dark text-white shadow-sm"
 
     return <div className="container">
         <div className="row d-flex align-items-center">
             <div className="col-8">
                 <div className="py-2">Week {moment(props.activeWeek.week_start_date).format('W')}</div>
-                <h5>{getWeekDateRange(props.activeWeek.week_start_date, props.startDay)}</h5>
+                <h6 style={{fontSize: '1.2rem'}}>{getWeekDateRange(props.activeWeek.week_start_date, props.startDay)}</h6>
             </div>
             <div className="col text-right">
                 <button 
@@ -46,20 +46,29 @@ const weekControl = props => {
                     onClick={() => props.changeToPrevWeek(props.activeWeek.week_start_date, props.activeWeek.week_end_date)}
                     style={{
                         borderRadius: '50%',
-                        height: '30px',
-                        width: '30px',
-                        lineHeight: '1.1rem',
-                        paddingRight: '1px'
+                        height: '25px',
+                        width: '25px',
+                        lineHeight: '1.1rem'
                     }}><i className="fas fa-chevron-left"></i></button>
+                    <button
+                        className="btn btn-light text-dark border bg-white p-1"
+                        onClick={() => props.backToToday()}
+                        style={{
+                            borderRadius: '50%',
+                            height: '25px',
+                            width: '25px',
+                            lineHeight: '1.1rem'
+                        }}>
+                        <i className="far fa-circle"></i>
+                    </button>
                 <button 
                     className="btn btn-light text-dark border bg-white p-1 ml-2"
                     onClick={() => props.changeToNextWeek(props.activeWeek.week_start_date, props.activeWeek.week_end_date)}
                     style={{
                         borderRadius: '50%',
-                        height: '30px',
-                        width: '30px',
-                        lineHeight: '1.1rem',
-                        paddingRight: '1px'
+                        height: '25px',
+                        width: '25px',
+                        lineHeight: '1.1rem'
                     }}><i className="fas fa-chevron-right"></i></button>
             </div>
         </div>
@@ -69,7 +78,7 @@ const weekControl = props => {
                     getWeekDaysArray(props.activeWeek.week_start_date, props.startDay).map((date, index) => (
                         <div 
                             key={index} 
-                            className="flex-grow-1 py-1 pb-3 text-center"
+                            className="flex-grow-1 pb-3 text-center"
                             onClick={() => props.changeActiveDate(date.format('YYYY-MM-DD'))}>
                             <div className="py-1 pb-2"><strong>{date.format('dd')}</strong></div>
                             <div 
@@ -91,4 +100,4 @@ const weekControl = props => {
     </div>
 }
 
-export default weekControl
+export default weekCalendar
